@@ -79,20 +79,28 @@ router.get("/getUsers", async (req, res) => {
     }
 });
 
-// router.put("/updateRole/:userId", async (req, res) => {
-//     const filter = {_id: req.params.userId};
-//     const role = req.body.data.role;
-//     const options = {
-//         upsert: true,
-//         new: true,
-//     };
+router.put("/updateRole/:userId", async (req, res) => {
+    const filter = {_id: req.params.userId};
+    const role = req.body.data.role;
 
-//     try {
-//         const result = await user.findOneAndUpdate(filter, {role: role}, options);
-//         res.status(200).send({user : result});
-//     } catch (error) {
-//         res.status(400).send({success : false, message : error});
-//     }
-// });
+    try {
+        const result = await user.findOneAndUpdate(filter, {role: role});
+        res.status(200).send({user : result});
+    } catch (error) {
+        res.status(400).send({success : false, message : error});
+    }
+});
+
+router.delete("/deleteUser/:userId", async (req, res) => {
+    const filter = {_id: req.params.userId};
+    const result = await user.deleteOne(filter);
+
+    if(result.deletedCount === 1) {
+        res.status(200).send({success : true, message : "User Removed"})
+    }
+    else{
+        res.status(500).send({success : false, message : "User Not Found"})
+    }
+})
 
 module.exports = router;

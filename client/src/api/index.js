@@ -51,3 +51,77 @@ export const getAllSongs = async () => {
         return null;
     }
 };
+
+export const changingUserRole = async (userId, role) => {
+    try {
+        const res = axios.put(`${baseURL}api/users/updateRole/${userId}`, {
+            data : {role : role},
+        });
+        return res;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const removeUser = async (userId) => {
+    try {
+        const res = axios.delete(`${baseURL}api/users/deleteUser/${userId}`);
+        return res;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const saveNewSong = async (data) => {
+    try {
+        const res = axios.post(`${baseURL}api/songs/save`, {...data});
+        return (await res).data.saveSong;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const saveNewArtist = async (data) => {
+    try {
+        const res = axios.post(`${baseURL}api/artists/save`, {...data});
+        return (await res).data.saveArtist;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const saveNewAlbum = async (data) => {
+    try {
+        const res = axios.post(`${baseURL}api/albums/save`, {...data});
+        return (await res).data.saveAlbum;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const deleteSongById = async (id) => {
+    try {
+        const res = axios.delete(`${baseURL}api/songs/delete/${id}`);
+        return res;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const deleteAlbumById = async (id) => {
+    try {
+        const res = axios.delete(`${baseURL}api/albums/delete/${id}`);
+        return res;
+    } catch (error) {
+        return null;
+    }
+};
+
+export const deleteArtistById = async (id) => {
+    try {
+        const res = axios.delete(`${baseURL}api/artists/delete/${id}`);
+        return res;
+    } catch (error) {
+        return null;
+    }
+};

@@ -8,8 +8,12 @@ import DashboardUsers from './DashboardUsers'
 import DashboardSongs from './DashboardSongs'
 import DashboardArtist from './DashboardArtist'
 import DashboardAlbums from './DashboardAlbums'
+import DashboardNewSong from './DashboardNewSong'
+import Alert from './Alert'
+import { useStateValue } from '../context/StateProvider'
 
 const Dashboard = () => {
+  const [{alertType}, dispath] = useStateValue();
   return (
     <div className='w-full h-auto flex flex-col items-center justify-center bg-primary'>
         <Header />
@@ -44,11 +48,15 @@ const Dashboard = () => {
             <Route path='/songs' element={<DashboardSongs />}/>
             <Route path='/artist' element={<DashboardArtist />}/>
             <Route path='/albums' element={<DashboardAlbums />}/>
-            <Route path='/newSong' element={<DashboardHome />}/>
+            <Route path='/newSong' element={<DashboardNewSong />}/>
           </Routes>
         </div>
+
+        {alertType && (
+          <Alert type={"danger"}/>
+        )}
     </div>
-  )
-}
+  );
+};
 
 export default Dashboard

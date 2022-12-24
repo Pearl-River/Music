@@ -2,13 +2,62 @@ import React, { useState } from 'react'
 import { useStateValue } from '../context/StateProvider'
 import {motion} from "framer-motion"
 import moment from 'moment/moment'
+import { changingUserRole, getAllUsers, removeUser } from '../api';
+import {actionType} from "../context/reducer"
+import {MdDelete} from "react-icons/md"
+import { useEffect } from 'react';
 
 export const DashboardUserCard = ({data, index}) => {
-  const [{user}, dispatch] = useStateValue();
+  const [{user, allUsers}, dispatch] = useStateValue();
   const [isUserRoleUpdate, setisUserRoleUpdate] = useState(false);
   const createdAt = moment(new Date(data.createdAt)).format('MMMM Do YYYY');
+  useEffect(() => {
+    if(!allUsers) {
+      getAllUsers().then((data) => {
+        dispatch({
+          type: actionType.SET_ALL_USERS,
+          allUsers: data.data
+        })
+      })
+    }
+  },[]);
+  const updateUserRole = (userId, role) => {
+    setisUserRoleUpdate(false);
+    changingUserRole(userId, role).then((res) => {
+      if(res) {
+        getAllUsers().then((data) => {
+          dispatch({
+            type : actionType.SET_ALL_USERS,
+            allUsers : data.data
+          });
+        });
+      }
+    });
+  };
+
+  const deleteUser = (userId) => {
+    removeUser(userId).then((res) => {
+      if(res) {
+        getAllUsers().then((data) => {
+          dispatch({
+            type : actionType.SET_ALL_USERS,
+            allUsers : data.data
+          });
+        });
+      }
+    });
+  };
+
   return (
-    <motion.div className='relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:bg-card hover:shadow-md'>
+    <motion.div key={index} className='relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:bg-card hover:shadow-md'>
+        {
+          data._id !== user?.user._id && (
+            <motion.div whileTap={{scale : 0.5}} className="absolute left-4 w-8 h-8 rounded-md flex items-center justify-center bg-gray-200" onClick={() => deleteUser(data._id)}>
+              <MdDelete className='text-xl text-red-400 hover:text-red-500' />
+            </motion.div>
+          )
+        }
+
       <div className='w-275 min-w-[160px] flex items-center justify-center'>
         <img src={data.imageURL} alt="" className='w-10 h-10 object-cover rounded-md min-w-[40px] shadow-md' />
       </div>
@@ -34,7 +83,7 @@ export const DashboardUserCard = ({data, index}) => {
               <p className='text-textColor text-[12px] font-semibold'>Bạn có muốn cho người dùng này là
               <span> {data.role === "admin" ? "Member" : "Admin"}</span> không?</p>
               <div className='flex items-center gap-4'>
-            <motion.button whileTap={{scale : 0.5}} className="outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md">
+            <motion.button whileTap={{scale : 0.5}} className="outline-none border-none text-sm px-4 py-1 rounded-md bg-blue-200 text-black hover:shadow-md" onClick={() => updateUserRole(data._id, data.role === "admin" ? "member" : "admin")}>
               Có
             </motion.button>
             <motion.button whileTap={{scale : 0.5}} className="outline-none border-none text-sm px-4 py-1 rounded-md bg-gray-200 text-black hover:shadow-md" onClick={() => setisUserRoleUpdate(false)}>

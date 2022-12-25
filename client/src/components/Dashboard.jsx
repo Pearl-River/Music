@@ -11,6 +11,7 @@ import DashboardAlbums from './DashboardAlbums'
 import DashboardNewSong from './DashboardNewSong'
 import Alert from './Alert'
 import { useStateValue } from '../context/StateProvider'
+import { DashboardNewAlbum, DashboardNewArtist, NewSongUser } from '.'
 
 const Dashboard = () => {
   const [{alertType}, dispath] = useStateValue();
@@ -25,15 +26,15 @@ const Dashboard = () => {
           </NavLink>
           <NavLink to={"/dashboard/user"} className={({isActive}) =>
             isActive ? isActiveStyles : isNotActiveStyles
-            }>Users
+            }>Người dùng
           </NavLink>
           <NavLink to={"/dashboard/songs"} className={({isActive}) =>
             isActive ? isActiveStyles : isNotActiveStyles
-            }>Songs
+            }>Bài hát
           </NavLink>
           <NavLink to={"/dashboard/artist"} className={({isActive}) =>
             isActive ? isActiveStyles : isNotActiveStyles
-            }>Artist
+            }>Ca sĩ
           </NavLink>
           <NavLink to={"/dashboard/albums"} className={({isActive}) =>
             isActive ? isActiveStyles : isNotActiveStyles
@@ -49,6 +50,8 @@ const Dashboard = () => {
             <Route path='/artist' element={<DashboardArtist />}/>
             <Route path='/albums' element={<DashboardAlbums />}/>
             <Route path='/newSong' element={<DashboardNewSong />}/>
+            <Route path='/newArtist' element={<DashboardNewArtist />}/>
+            <Route path='/newAlbum' element={<DashboardNewAlbum />}/>
           </Routes>
         </div>
 
@@ -59,4 +62,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard
+export default Dashboard;

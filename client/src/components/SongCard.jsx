@@ -87,12 +87,12 @@ const SongCard = ({data, index, type}) => {
             <motion.div className='absolute inset-0 backdrop-blur-md bg-cardOverlay flex items-center flex-col justify-center px-4 py-2 gap-0'
             initial={{opacity: 0}}
             animate={{opacity: 1}}>
-            <p className='text-xl text-headingColor font-semibold text-center'>Ban co thuc su muon xoa Album nay khong?</p>
+            <p className='text-xl text-headingColor font-semibold text-center'>Bạn có thực sụ muốn xóa không?</p>
             <div className='flex items-center gap-4'>
                 <motion.button className='px-2 py-1 text-sm uppercase bg-green-300 rounded-md hover:bg-green-500 cursor-pointer'
-                whileTap={{scale: 0.5}} onClick={() => deleteData(data)}>Co</motion.button>
+                whileTap={{scale: 0.5}} onClick={() => deleteData(data)}>Có</motion.button>
                 <motion.button className='px-2 py-1 text-sm uppercase bg-red-300 rounded-md hover:bg-red-500 cursor-pointer'
-                whileTap={{scale: 0.5}} onClick={() => setisDelete(false)}>Khong</motion.button>
+                whileTap={{scale: 0.5}} onClick={() => setisDelete(false)}>Không</motion.button>
             </div>
         </motion.div>
         )}

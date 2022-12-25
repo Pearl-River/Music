@@ -4,6 +4,7 @@ export const initialState = {
     allSongs: null,
     allArtists: null,
     allAlbums: null,
+    searchTerm: "",
     filterTerm : "all",
     artistFilter: null,
     languageFilter: null,

@@ -76,11 +76,12 @@ const MusicPlayer = () => {
             <div className='flex-1'>
                 <AudioPlayer
                     src={allSongs[songIndex]?.songURL}
-                    onPlay={() => console.log("is playing")}
+                    onPlay={() => console.log("đang phát")}
                     autoPlay={true}
                     showSkipControls={true}
                     onClickNext={nextTrack}
                     onClickPrevious={previousTrack}
+                    //onEnded={() => }
                 />
             </div>
 

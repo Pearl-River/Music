@@ -10,27 +10,27 @@ import {actionType} from "../context/reducer";
 import {IoMusicalNote} from "react-icons/io5";
 import Filterbuttons from './Filterbuttons';
 import {filters, filtersLanguage} from "../utils/supportfunctions";
+import AlertSuccess from "./AlertSuccess";
 
 
 const DashboardNewSong = () => {
-    const [{allArtists, allAlbums, allSongs,  filterTerm, artistFilter, albumFilter, languageFilter, alertType}, dispath] = useStateValue();
+    const [{allArtists, allAlbums, allSongs, alertType}, dispath] = useStateValue();
     const [songName, setSongName] = useState("");
+    const [artistFilter, setartistName] = useState("");
+    const [albumFilter, setalbumName] = useState("");
+    const [languageFilter, setlanguage] = useState("");
+    const [filterTerm, setcategory] = useState("");
+
     const [imageUploadProgress, setimageUploadProgress] = useState(0);
     const [songImageCover, setsongImageCover] = useState(null);
     const [isImageLoading, setisImageLoading] = useState(false);
     const [audioImageCover, setaudioImageCover] = useState(null);
     const [audioUploadingProgress, setaudioUploadingProgress] = useState(0);
     const [isAudioLoading, setisAudioLoading] = useState(false);
-    const [artistName, setartistName] = useState("");
     const [artistImageCover, setartistImageCover] = useState(null);
-    const [artistUploadingProgress, setartistUploadingProgress] = useState(0);
-    const [isArtistUploading, setisArtistUploading] = useState(false);
     const [albumImageCover, setalbumImageCover] = useState(null);
     const [facebook, setfacebook] = useState("");
     const [instagarm, setinstagarm] = useState("");
-    const [albumUploadingProgress, setalbumUploadingProgress] = useState(0);
-    const [isAlbumUploading, setisAlbumUploading] = useState(false);
-    const [albumName, setalbumName] = useState("");
     useEffect(() => {
         if(!allArtists){
             getAllArtists().then(data => {
@@ -55,19 +55,13 @@ const DashboardNewSong = () => {
       if(isImage) {
         setisImageLoading(true);
         setisAudioLoading(true);
-        setisArtistUploading(true);
-        setisAlbumUploading(true);
       }
       const deleteRef = ref(storage,url);
       deleteObject(deleteRef).then(() => {
         setsongImageCover(null);
         setaudioImageCover(null);
-        setartistImageCover(null);
-        setalbumImageCover(null);
         setisImageLoading(false);
         setisAudioLoading(false);
-        setisArtistUploading(false);
-        setisAlbumUploading(false);
       });
     };
 
@@ -98,85 +92,39 @@ const DashboardNewSong = () => {
         });
 
         setSongName("");
+        setartistName("");
+        setalbumName("");
+        setlanguage("");
+        setcategory("");
         setisAudioLoading(false);
         setisImageLoading(false);
         setsongImageCover(null);
         setaudioImageCover(null);
-        dispath({ type: actionType.SET_ARTIST_FILTER, artistFilter: null });
-        dispath({ type: actionType.SET_LANGUAGE_FILTER, languageFilter: null });
-        dispath({ type: actionType.SET_ALBUM_FILTER, albumFilter: null });
-        dispath({ type: actionType.SET_FILTER_TERM, filterTerm: null });
-      }
-    };
-
-    const saveArtist = () => {
-      if(!artistImageCover || !artistName || !facebook || !instagarm){
-
-      }
-      else{
-        setisArtistUploading(true);
-        const data ={
-          name : artistName,
-          imageURL : artistImageCover,
-          facebook : `www.facebook.com/${facebook}`,
-          instagram : `www.instagram.com/${instagarm}`,
-        };
-
-        saveNewArtist(data).then(res => {
-          getAllArtists().then((data) => {
-            dispath({
-              type: actionType.SET_ALL_ARTISTS,
-              allArtists: data.artist,
-            });
-          });
-        });
-
-        setisArtistUploading(false);
-        setartistImageCover(null);
-        setartistName("");
-        setfacebook("");
-        setinstagarm("");
-      }
-    };
-
-    const saveAlbum = () => {
-      if(!albumImageCover || !albumName){
-
-      }
-      else{
-        setisAlbumUploading(true);
-        const data = {
-          name : albumName,
-          imageURL : albumImageCover,
-        };
-
-        saveNewAlbum(data).then(res => {
-          getAllAlbums().then((data) => {
-            dispath({
-              type: actionType.SET_ALL_ALBUMS,
-              allAlbums : data.album,
-            });
-          });
-        });
-        setisAlbumUploading(false);
-        setalbumImageCover(null);
-        setalbumName("");
       }
     };
 
   return (
-    <div className='flex flex-col items-center justify-center p-4 border border-gray-300 gap-4 rounded'>
-        <input type="text" placeholder='Song name...' className='w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border-gray-300'
+    <div className='flex flex-col items-center justify p-4 border border-gray-500 gap-3 rounded'>
+      <p className='text-xl font-semibold text-black'>THÊM BÀI HÁT</p>
+        <input type="text" placeholder='Nhập tên bài hát...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
         value={songName} onChange={(e) => setSongName(e.target.value)} />
+        <input type="text" placeholder='Nhập tên ca sĩ...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
+        value={artistFilter} onChange={(e) => setartistName(e.target.value)} />
+        <input type="text" placeholder='Nhập tên album...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
+        value={albumFilter} onChange={(e) => setalbumName(e.target.value)} />
+        <input type="text" placeholder='Nhập ngôn ngữ...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
+        value={languageFilter} onChange={(e) => setlanguage(e.target.value)} />
+        <input type="text" placeholder='Nhập tên thể loại...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
+        value={filterTerm} onChange={(e) => setcategory(e.target.value)} />
 
-        <div className='flex w-full justify-between flex-wrap items-center gap-4'>
-          <Filterbuttons filterData={allArtists} flag={"Artist"} />
+        {/* <div className='flex w-full justify-between flex-wrap items-center gap-4'>
+          <Filterbuttons filterData={allArtists} flag={"Ca sĩ"} />
           <Filterbuttons filterData={allAlbums} flag={"Album"} />
-          <Filterbuttons filterData={filtersLanguage} flag={"Language"} />
-          <Filterbuttons filterData={filters} flag={"Category"} />
-        </div>
+          <Filterbuttons filterData={filtersLanguage} flag={"Ngôn ngữ"} />
+          <Filterbuttons filterData={filters} flag={"Thể loại"} />
+        </div> */}
 
-        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border-dotted border-gray-300 cursor-pointer'>
+        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border border-gray-600 cursor-pointer'>
           {isImageLoading && <FileLoader progress={imageUploadProgress} />}
           {!isImageLoading && (
             <>{!songImageCover ? (<FileUploader updateState ={setsongImageCover} setProgress ={setimageUploadProgress} 
@@ -191,7 +139,7 @@ const DashboardNewSong = () => {
           )}
         </div>
 
-        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border-dotted border-gray-300 cursor-pointer'>
+        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border border-gray-600 cursor-pointer'>
           {isAudioLoading && <FileLoader progress={audioUploadingProgress} />}
           {!isAudioLoading && (
             <>{!audioImageCover ? (<FileUploader updateState ={setaudioImageCover} setProgress ={setaudioUploadingProgress} 
@@ -206,84 +154,13 @@ const DashboardNewSong = () => {
           )}
         </div>
 
-        <div className='flex items-center justify-center w-60 cursor-pointer p-4'>
+        <div className='flex items-center justify-center w-60 cursor-pointer p-4 pb-28'>
             {isImageLoading || isAudioLoading ? (
               <DisabledButton />
             ) : (
               <motion.button whileTap={{scale : 0.5}} className="px-8 py-2 w-full rounded-md text-white bg-red-600 hover:shadow-lg"
               onClick={saveSong}>
-                Save song
-              </motion.button>
-            )}
-        </div>
-        
-        <p className='text-xl font-semibold text-headingColor'>Artist Details</p>
-        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border-dotted border-gray-300 cursor-pointer'>
-          {isArtistUploading && <FileLoader progress={artistUploadingProgress} />}
-          {!isArtistUploading && (
-            <>{!artistImageCover ? (<FileUploader updateState ={setartistImageCover} setProgress ={setartistUploadingProgress} 
-                isLoading={setisArtistUploading} isImage={true}/>
-                )  : (<div className='relative w-full h-full overflow-hidden rounded-md'>
-                  <img src={artistImageCover} className='w-full h-full object-cover' alt="" />
-                  <button type='button' className='absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out'
-                  onClick={() => deleteFileObject(artistImageCover, true)}>
-                    <MdDelete className='text-white'/>
-                  </button>
-                </div>)}</>
-          )}
-        </div>
-
-        <input type="text" placeholder='Artist name...' className='w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border-gray-300'
-        value={artistName} onChange={(e) => setartistName(e.target.value)} />
-
-        <div className='flex items-center rounded-md p-3 border border-gray-300 w-full'>
-            <p className='text-base font-semibold text-gray-400'>www.facebook.com/</p>
-            <input type="text" placeholder='' className='w-full text-base font-semibold text-textColor outline-none bg-transparent' value={facebook} onChange={(e) => setfacebook(e.target.value)}/>
-        </div>
-
-        <div className='flex items-center rounded-md p-3 border border-gray-300 w-full'>
-            <p className='text-base font-semibold text-gray-400'>www.instagram.com/</p>
-            <input type="text" placeholder='' className='w-full text-base font-semibold text-textColor outline-none bg-transparent' value={instagarm} onChange={(e) => setinstagarm(e.target.value)}/>
-        </div>
-
-        <div className='flex items-center justify-center w-60 cursor-pointer p-4'>
-            {isArtistUploading ? (
-              <DisabledButton />
-            ) : (
-              <motion.button whileTap={{scale : 0.5}} className="px-8 py-2 w-full rounded-md text-white bg-red-600 hover:shadow-lg"
-              onClick={saveArtist}>
-                Save Artist
-              </motion.button>
-            )}
-        </div>
-
-        <p className='text-xl font-semibold text-headingColor'>Album Details</p>
-        <div className='bg-card backdrop-blur-md w-full h-300 rounded-md border-dotted border-gray-300 cursor-pointer'>
-          {isAlbumUploading && <FileLoader progress={albumUploadingProgress} />}
-          {!isAlbumUploading && (
-            <>{!albumImageCover ? (<FileUploader updateState ={setalbumImageCover} setProgress ={setalbumUploadingProgress} 
-                isLoading={setisAlbumUploading} isImage={true}/>
-                )  : (<div className='relative w-full h-full overflow-hidden rounded-md'>
-                  <img src={albumImageCover} className='w-full h-full object-cover' alt="" />
-                  <button type='button' className='absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none border-none hover:shadow-md duration-200 transition-all ease-in-out'
-                  onClick={() => deleteFileObject(albumImageCover, true)}>
-                    <MdDelete className='text-white'/>
-                  </button>
-                </div>)}
-                </>
-          )}
-        </div>
-
-        <input type="text" placeholder='Album name...' className='w-full p-3 rounded-md text-base font-semibold text-textColor outline-none shadow-sm border-gray-300'
-        value={albumName} onChange={(e) => setalbumName(e.target.value)} />
-
-        <div className='flex items-center justify-center w-60 cursor-pointer p-4'>
-            {isAlbumUploading ? (
-              <DisabledButton />
-            ) : (
-              <motion.button whileTap={{scale : 0.5}} className="px-8 py-2 w-full rounded-md text-white bg-red-600 hover:shadow-lg"
-              onClick={saveAlbum}>
-                Save Album
+                LƯU BÀI HÁT
               </motion.button>
             )}
         </div>
@@ -308,7 +185,7 @@ export const DisabledButton = () => {
           fill="currentColor"
         />
       </svg>
-      Loading...
+      Đang tải...
     </button>
   );
 };
@@ -354,7 +231,7 @@ export const FileUploader = ({updateState, setProgress, isLoading, isImage}) => 
           <p className='font-bold text-2xl'>
             <BiCloudUpload/>
           </p>
-          <p className='text-lg'>Click to upload {isImage ? "an image" : "an audio"}</p>
+          <p className='text-lg'>Nhấn để tải {isImage ? "ảnh" : "nhạc"} lên</p>
         </div>
       </div>
       <input type="file" name='upload-flie'  accept={`${isImage ? "image/*" : "audio/*"}`} className={"w-0 h-0"}

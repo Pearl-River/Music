@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
-import { Route, Routes, useNavigate } from 'react-router-dom'
-import { Dashboard, Home, Login, MusicPlayer } from './components'
+import { Link, NavLink, Route, Routes, useNavigate } from 'react-router-dom'
+import { Album, Artist, Dashboard, Home, Login, Music, MusicPlayer, NewAlbumUser, NewSongUser, UserProfile } from './components'
 import { app } from './config/firebase.config'
 import { getAuth } from 'firebase/auth'
 import {AnimatePresence} from 'framer-motion'
-import { validateUser } from './api'
+import { getAllSongs, validateUser } from './api'
 import { useStateValue } from './context/StateProvider'
 import { actionType } from './context/reducer'
 import {motion} from "framer-motion"
+import NewArtistUser from './components/NewArtistUser'
+import AlbumUser from './components/AlbumUser'
 
 const App = () => {
 
     const firebaseAuth = getAuth(app);
     const navigate = useNavigate();
-    const [{user, isSongPlaying, songIndex}, dispatch] = useStateValue();
+    const [{user, isSongPlaying, songIndex, allSongs}, dispatch] = useStateValue();
 
     const [auth, setAuth] = useState(false || window.localStorage.getItem("auth") === "true")
 
@@ -39,15 +41,33 @@ const App = () => {
                 navigate("/login")
             }
         })
-    }, [])
+    }, []);
+
+  useEffect(() => {
+    if (!allSongs && user) {
+      getAllSongs().then((data) => {
+        dispatch({
+          type: actionType.SET_ALL_SONGS,
+          allSongs: data.song,
+        });
+      });
+    }
+  }, []);
 
   return (
-    <AnimatePresence exitBeforeEnter>
+    <AnimatePresence >
         <div className='h-auto min-w-[680px] bg-primary flex justify-center items-center'>
         <Routes>
             <Route path='/login' element={<Login setAuth = {setAuth} />} />
             <Route path='/*' element={<Home />} />
             <Route path='/dashboard/*' element={<Dashboard />} />
+            <Route path='/userProfile' element={<UserProfile />} />
+            <Route path='/musics' element={<Music />} />
+            <Route path='/artists' element={<Artist />} />
+            <Route path='/albums' element={<Album />} />
+            <Route path='/newSongUser' element={<NewSongUser />} />
+            <Route path='/newArtistUser' element={<NewArtistUser />} />
+            <Route path='/newAlbumUser' element={<AlbumUser />} />
         </Routes>
 
         {isSongPlaying && (

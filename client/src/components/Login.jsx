@@ -35,7 +35,7 @@ const Login = ({setAuth}) => {
                                 })
                             })
                         })
-                        navigate("/", {replace : true})
+                        navigate("/home", {replace : true})
                     }
                     else{
                         setAuth(false);

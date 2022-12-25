@@ -15,14 +15,14 @@ const Alert = ({type}) => {
         {type === "success" && (
             <div className='flex items-center justify-center gap-4'>
                 <BsEmojiWink className='text-3xl text-primary'/>
-                <p className='text-xl font-semibold text-primary'>Data saved</p>
+                <p className='text-xl font-semibold text-primary'>Thành công</p>
             </div>
         )}
 
         {type === "danger" && (
             <div className='flex items-center justify-center gap-4'>
                 <BsEmojiWink className='text-3xl text-primary'/>
-                <p className='text-xl font-semibold text-primary'>Something went wrong</p>
+                <p className='text-xl font-semibold text-primary'>Thất bại</p>
             </div>
         )}
     </motion.div>

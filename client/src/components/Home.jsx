@@ -22,7 +22,7 @@ const Home = () => {
       artistFilter,
       filterTerm,
     },
-    dispatch,
+    dispath,
   ] = useStateValue();
 
   const [filteredSongs, setFilteredSongs] = useState(null);
@@ -30,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     if (!allSongs) {
       getAllSongs().then((data) => {
-        dispatch({
+        dispath({
           type: actionType.SET_ALL_SONGS,
           allSongs: data.song,
         });
@@ -54,19 +54,8 @@ const Home = () => {
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    const filtered = allSongs?.filter(
-      (data) => data.category.toLowerCase() === filterTerm
-    );
-    if (filtered) {
-      setFilteredSongs(filtered);
-    } else {
-      setFilteredSongs(null);
-    }
-  }, [filterTerm]);
-
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-200">
       <Header />
       <SearchBar />
       
@@ -78,12 +67,10 @@ const Home = () => {
           </span>
         </p>
       )}
-
-      <Filter setFilteredSongs={setFilteredSongs} />
-
+      <div className="pb-12"></div>
       <Slideshow />
 
-      <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
+      <div className="w-[1370px] h-auto flex items-center justify-evenly gap-4 flex-wrap p-4 px-4">
         <HomeSongContainer musics={filteredSongs ? filteredSongs : allSongs} />
       </div>
     </div>

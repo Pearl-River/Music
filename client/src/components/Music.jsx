@@ -9,24 +9,13 @@ import { motion } from "framer-motion";
 import 'react-slideshow-image/dist/styles.css'
 
 const Music = () => {
-  const [
-    {
-      searchTerm,
-      isSongPlaying,
-      songIndex,
-      allSongs,
-      artistFilter,
-      filterTerm,
-    },
-    dispatch,
-  ] = useStateValue();
-
+  const [{searchTerm, isSongPlaying, songIndex, allSongs, artistFilter, filterTerm}, dispath ] = useStateValue();
   const [filteredSongs, setFilteredSongs] = useState(null);
 
   useEffect(() => {
     if (!allSongs) {
       getAllSongs().then((data) => {
-        dispatch({
+        dispath({
           type: actionType.SET_ALL_SONGS,
           allSongs: data.song,
         });
@@ -42,27 +31,17 @@ const Music = () => {
           data.name.toLowerCase().includes(searchTerm) ||
           data.name.toUpperCase().includes(searchTerm) ||
           data.artist.toUpperCase().includes(searchTerm) ||
-          data.artist.includes(artistFilter)
-      );
+          data.artist.includes(artistFilter) ||
+          data.category.toLowerCase() === filterTerm
+          );
       setFilteredSongs(filtered);
     } else {
       setFilteredSongs(null);
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    const filtered = allSongs?.filter(
-      (data) => data.category.toLowerCase() === filterTerm
-    );
-    if (filtered) {
-      setFilteredSongs(filtered);
-    } else {
-      setFilteredSongs(null);
-    }
-  }, [filterTerm]);
-
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-200">
       <Header />
       <SearchBar />
       
@@ -74,10 +53,8 @@ const Music = () => {
           </span>
         </p>
       )}
-
-      <Filter setFilteredSongs={setFilteredSongs} />
-
-      <div className="w-full h-auto flex items-center justify-evenly gap-4 flex-wrap p-4">
+        <div className="pb-16"></div>
+      <div className="w-[1370px] h-auto flex items-center justify-evenly gap-4 flex-wrap p-4 px-4">
         <HomeSongContainer musics={filteredSongs ? filteredSongs : allSongs} />
       </div>
     </div>

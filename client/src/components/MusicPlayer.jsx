@@ -127,7 +127,7 @@ export const PlayListCard = () => {
       };
     return (
         <div className="absolute left-4 bottom-24 gap-2 py-2 w-350 max-w-[350px] h-510 max-h-[510px] 
-        flex flex-col overflow-y-scroll scrollbar-thin rounded-md shadow-md bg-primary z-50">
+        flex flex-col overflow-y-scroll scrollbar-thin rounded-md shadow-md bg-gray-200 z-50">
             {
                 allSongs.length > 0 ? (
                     allSongs.map((music, index) => (

@@ -105,7 +105,7 @@ const NewSongUser = () => {
   return (
     <div className='flex flex-col items-center justify p-4 border border-gray-500 gap-3 rounded w-full'>
         <Header />
-      <p className='text-xl font-semibold text-black    '>THÊM BÀI HÁT</p>
+      <p className='text-xl font-semibold text-black pt-12'>THÊM BÀI HÁT</p>
         <input type="text" placeholder='Nhập tên bài hát...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'
         value={songName} onChange={(e) => setSongName(e.target.value)} />
         <input type="text" placeholder='Nhập tên ca sĩ...' className='w-880 p-3 rounded-md text-base font-semibold text-black outline-none shadow-sm border border-gray-500'

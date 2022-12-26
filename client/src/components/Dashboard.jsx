@@ -16,7 +16,7 @@ import { DashboardNewAlbum, DashboardNewArtist, NewSongUser } from '.'
 const Dashboard = () => {
   const [{alertType}, dispath] = useStateValue();
   return (
-    <div className='w-full h-auto flex flex-col items-center justify-center bg-primary'>
+    <div className='w-full h-auto flex flex-col items-center justify-center bg-gray-200'>
         <Header />
 
         <div className='w-[60%] my-2 p-4 flex items-center justify-evenly'>
@@ -41,6 +41,8 @@ const Dashboard = () => {
             }>Albums
           </NavLink>
         </div>
+
+        <hr />
 
         <div className='my-4 w-full p-4'>
           <Routes>

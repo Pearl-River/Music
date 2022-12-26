@@ -49,10 +49,10 @@ export const DashboardUserCard = ({data, index}) => {
   };
 
   return (
-    <motion.div key={index} className='relative w-full rounded-md flex items-center justify-between py-4 bg-lightOverlay cursor-pointer hover:bg-card hover:shadow-md'>
+    <motion.div key={index} className='bg-gray-200 relative w-full rounded-md flex items-center justify-between py-4 border border-gray-900 cursor-pointer hover:bg-gray-300 hover:shadow-md'>
         {
           data._id !== user?.user._id && (
-            <motion.div whileTap={{scale : 0.5}} className="absolute left-4 w-8 h-8 rounded-md flex items-center justify-center bg-gray-200" onClick={() => deleteUser(data._id)}>
+            <motion.div whileTap={{scale : 0.5}} className="absolute left-4 w-8 h-8 rounded-md flex items-center justify-center bg-gray-400" onClick={() => deleteUser(data._id)}>
               <MdDelete className='text-xl text-red-400 hover:text-red-500' />
             </motion.div>
           )
@@ -102,7 +102,7 @@ const DashboardUsers = () => {
   const [{allUsers}, dispatch] = useStateValue();
   return (
     <div className='w-full p-4 flex items-center justify-center flex-col'>
-      <div className=' relative w-full py-12 min-h-[400px] overflow-x-scroll my-4 flex flex-col items-center justify-start p-4 border border-gray-300 rounded-md gap-3'>
+      <div className=' relative w-full py-12 min-h-[400px] overflow-x-scroll my-4 flex flex-col items-center justify-start p-4 border border-gray-900 rounded-md gap-3 bg-white'>
         <div className='absolute top-4 left-4'>
           <p className='text-sm font-semibold'>
             Số lượng: <span className='text-xl font-bold text-textColor'>{allUsers?.length}</span>

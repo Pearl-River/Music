@@ -3,7 +3,7 @@ import Header from "./Header";
 
 const UserProfile = () => {
   return (
-    <div className="w-full h-auto flex flex-col items-center justify-center bg-primary">
+    <div className="w-full h-auto flex flex-col items-center justify-center bg-gray-200">
       <Header />
       User Profile
     </div>

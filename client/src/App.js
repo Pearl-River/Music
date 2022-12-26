@@ -56,7 +56,7 @@ const App = () => {
 
   return (
     <AnimatePresence >
-        <div className='h-auto min-w-[680px] bg-primary flex justify-center items-center'>
+        <div className='h-auto min-w-[680px] bg-gray-200 flex justify-center items-center'>
         <Routes>
             <Route path='/login' element={<Login setAuth = {setAuth} />} />
             <Route path='/*' element={<Home />} />
